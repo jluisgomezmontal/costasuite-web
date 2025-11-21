@@ -17,8 +17,15 @@ export const authService = {
 
   getStoredUser: () => {
     if (typeof window !== 'undefined') {
-      const userStr = localStorage.getItem('user');
-      return userStr ? JSON.parse(userStr) : null;
+      try {
+        const userStr = localStorage.getItem('user');
+        return userStr ? JSON.parse(userStr) : null;
+      } catch (error) {
+        console.warn('Error parsing user data from localStorage:', error);
+        // Limpiar datos corruptos
+        localStorage.removeItem('user');
+        return null;
+      }
     }
     return null;
   },
