@@ -4,8 +4,8 @@ import { LoginFormData } from '@/lib/validations/auth';
 
 export const authService = {
   login: async (data: LoginFormData): Promise<AuthTokens> => {
-    const response = await api.post<AuthTokens>('/auth/login', data);
-    return response.data;
+    const response = await api.post<{ success: boolean; data: AuthTokens }>('/auth/login', data);
+    return response.data.data;
   },
 
   logout: () => {
